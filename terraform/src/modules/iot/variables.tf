@@ -1,0 +1,2 @@
+
+variable "base_name" {}

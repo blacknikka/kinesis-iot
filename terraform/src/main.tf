@@ -29,3 +29,9 @@ module "ec2" {
   vpc_main       = module.network.vpc_main
   subnet_for_ec2 = module.network.subnet_for_ec2
 }
+
+module "iot" {
+  source = "./modules/iot"
+
+  base_name = var.base_name
+}
