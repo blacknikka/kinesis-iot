@@ -1,12 +1,12 @@
 terraform {
   required_version = ">= 0.12.0"
-#   backend "s3" {
-#     region  = "ap-northeast-1"
-#     encrypt = true
+  #   backend "s3" {
+  #     region  = "ap-northeast-1"
+  #     encrypt = true
 
-#     bucket = "terraform-bucket-fortfstate"
-#     key    = "terraform.tfstate"
-#   }
+  #     bucket = "terraform-bucket-fortfstate"
+  #     key    = "terraform.tfstate"
+  #   }
 }
 
 provider "aws" {
@@ -32,6 +32,13 @@ module "ec2" {
 
 module "iot" {
   source = "./modules/iot"
+
+  base_name   = var.base_name
+  kinesis_iot = module.kinesis.kinesis_iot
+}
+
+module "kinesis" {
+  source = "./modules/kinesis"
 
   base_name = var.base_name
 }
