@@ -29,7 +29,7 @@ resource "aws_iot_certificate" "iot_certificate" {
 # -----------------
 resource "local_file" "cert_pem" {
   sensitive_content = aws_iot_certificate.iot_certificate.certificate_pem
-  filename = "${path.module}/cert/iot-cert.pem"
+  filename = "${path.module}/cert/iot-cert.cert.pem"
 }
 
 resource "local_file" "cert_public_key" {
