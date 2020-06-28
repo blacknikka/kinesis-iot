@@ -30,8 +30,17 @@ myMQTTClient.configureConnectDisconnectTimeout(10) # 10 sec
 myMQTTClient.configureMQTTOperationTimeout(5) # 5 sec
 myMQTTClient.connect()
 
+
+myMQTTClient.subscribe("myTopic", 1, customCallback)
+time.sleep(2)
+
+loopCount = 0
 while True:
-    #myMQTTClient.subscribe("myTopic", 1, customCallback)
-    myMQTTClient.publish("myTopic", json.dumps({'message' : 'from python!'}), 1)
+    message = {}
+    message['message'] = 'from python!'
+    message['sequence'] = loopCount
+    messageJson = json.dumps(message)
+    myMQTTClient.publish("myTopic", messageJson, 1)
     print("send")
+    loopCount += 1
     time.sleep(1)

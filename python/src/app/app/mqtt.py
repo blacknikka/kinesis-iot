@@ -31,7 +31,8 @@ myMQTTClient.configureMQTTOperationTimeout(5) # 5 sec
 myMQTTClient.connect()
 
 print('now listening messages.')
+myMQTTClient.subscribe("myTopic", 1, customCallback)
 
 while True:
-    myMQTTClient.subscribe("myTopic", 1, customCallback)
-    time.sleep(1)
+    time.sleep(5)
+    print("wainting for receiving the data")
