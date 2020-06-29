@@ -42,3 +42,10 @@ module "kinesis" {
 
   base_name = var.base_name
 }
+
+module "lambda" {
+  source = "./modules/lambda"
+
+  base_name   = var.base_name
+  kinesis_iot = module.kinesis.kinesis_iot
+}
