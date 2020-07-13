@@ -22,13 +22,13 @@ module "network" {
   base_name = var.base_name
 }
 
-module "ec2" {
-  source = "./modules/ec2"
+# module "ec2" {
+#   source = "./modules/ec2"
 
-  base_name      = var.base_name
-  vpc_main       = module.network.vpc_main
-  subnet_for_ec2 = module.network.subnet_for_ec2
-}
+#   base_name      = var.base_name
+#   vpc_main       = module.network.vpc_main
+#   subnet_for_app = module.network.subnet_for_app
+# }
 
 module "iot" {
   source = "./modules/iot"
@@ -48,4 +48,13 @@ module "lambda" {
 
   base_name   = var.base_name
   kinesis_iot = module.kinesis.kinesis_iot
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  base_name      = var.base_name
+  vpc_main       = module.network.vpc_main
+  subnet_for_app = module.network.subnet_for_app
+  subnet_for_app2 = module.network.subnet_for_app2
 }

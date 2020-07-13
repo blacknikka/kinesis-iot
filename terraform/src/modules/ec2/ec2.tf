@@ -2,7 +2,7 @@
 resource "aws_instance" "app" {
   ami                    = data.aws_ssm_parameter.amzn2_ami.value
   instance_type          = "t2.micro"
-  subnet_id              = var.subnet_for_ec2.id
+  subnet_id              = var.subnet_for_app.id
   vpc_security_group_ids = [aws_security_group.for_app_server.id]
 
   tags = {
