@@ -53,8 +53,8 @@ module "lambda" {
 module "ecs" {
   source = "./modules/ecs"
 
-  base_name      = var.base_name
-  vpc_main       = module.network.vpc_main
-  subnet_for_app = module.network.subnet_for_app
+  base_name       = var.base_name
+  vpc_main        = module.network.vpc_main
+  subnet_for_app  = module.network.subnet_for_app
   subnet_for_app2 = module.network.subnet_for_app2
 }
