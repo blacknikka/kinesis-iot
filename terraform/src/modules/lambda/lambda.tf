@@ -21,12 +21,18 @@ resource "aws_lambda_layer_version" "lambda_layer" {
 resource "aws_lambda_function" "from_kinesis" {
   function_name = "${var.base_name}_from_kinesis"
 
-  handler          = "src/get_unixtime.lambda_handler"
+  handler          = "src/postInflux.lambda_handler"
   filename         = data.archive_file.function_zip.output_path
   runtime          = "python3.6"
   role             = aws_iam_role.lambda_iam_role.arn
   source_code_hash = data.archive_file.function_zip.output_base64sha256
   layers           = [aws_lambda_layer_version.lambda_layer.arn]
+
+  environment {
+    variables = {
+      INFLUX_ENDPOINT = var.influx_dns_name
+    }
+  }
 }
 
 # lambda event
