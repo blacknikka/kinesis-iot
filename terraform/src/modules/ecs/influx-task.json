@@ -1,12 +1,12 @@
 [
     {
-        "name": "grafana",
+        "name": "influx",
         "image": "${image_url}",
         "portMappings": [
             {
-                "hostPort": 3000,
+                "hostPort": 8086,
                 "protocol": "tcp",
-                "containerPort": 3000
+                "containerPort": 8086
             }
         ],
         "memoryReservation": 256,
