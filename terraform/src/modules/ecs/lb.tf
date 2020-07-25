@@ -4,18 +4,23 @@
 resource "aws_alb" "app" {
   name            = "elb-for-app"
   security_groups = [aws_security_group.load_balancers.id]
-  subnets         = [
-      var.subnet_for_app.id,
-      var.subnet_for_app2.id,
+  subnets = [
+    var.subnet_for_app.id,
+    var.subnet_for_app2.id,
   ]
 }
 
 resource "aws_alb_target_group" "alb_target" {
-  name     = "alb-target-for-app"
-  port     = 3000
-  protocol = "HTTP"
+  name        = "alb-target-for-app"
+  port        = 3000
+  protocol    = "HTTP"
   target_type = "ip"
-  vpc_id   = var.vpc_main.id
+  vpc_id      = var.vpc_main.id
+
+  health_check {
+    matcher = "200,302"
+    port    = 3000
+  }
 }
 
 resource "aws_alb_listener" "influx_lb" {
@@ -49,25 +54,30 @@ resource "aws_security_group" "load_balancers" {
   }
 }
 
-
 # ----------------------
 # influx
 # ----------------------
 resource "aws_alb" "influx" {
   name            = "elb-for-influx"
   security_groups = [aws_security_group.load_balancers_influx.id]
-  subnets         = [
-      var.subnet_for_app.id,
-      var.subnet_for_app2.id,
+  subnets = [
+    var.subnet_for_app.id,
+    var.subnet_for_app2.id,
   ]
 }
 
 resource "aws_alb_target_group" "alb_target_influx" {
-  name     = "alb-target-for-influx"
-  port     = 8086
-  protocol = "HTTP"
+  name        = "alb-target-for-influx"
+  port        = 8086
+  protocol    = "HTTP"
   target_type = "ip"
-  vpc_id   = var.vpc_main.id
+  vpc_id      = var.vpc_main.id
+
+  health_check {
+    matcher = 200
+    port    = 8086
+    path    = "/health"
+  }
 }
 
 resource "aws_alb_listener" "influx_listner_lb" {

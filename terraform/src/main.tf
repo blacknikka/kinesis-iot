@@ -46,8 +46,9 @@ module "kinesis" {
 module "lambda" {
   source = "./modules/lambda"
 
-  base_name   = var.base_name
-  kinesis_iot = module.kinesis.kinesis_iot
+  base_name       = var.base_name
+  kinesis_iot     = module.kinesis.kinesis_iot
+  influx_dns_name = module.ecs.influx_dns_name
 }
 
 module "ecs" {
