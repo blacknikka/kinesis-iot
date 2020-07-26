@@ -1,11 +1,5 @@
 version: '3'
 services:
-  python:
-    build: ./python
-    volumes:
-      - ./python/src:/app
-    tty: true
-    working_dir: /app/app
   tf:
     build: ./terraform
     tty: true
