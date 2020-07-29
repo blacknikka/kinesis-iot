@@ -1,0 +1,8 @@
+version: '3'
+services:
+  mock-sender:
+    build: ./mock-data-generator
+    tty: true
+    working_dir: /go/src/github.com/blacknikka/kinesis-iot
+    volumes:
+      - "./mock-data-generator/src:/go/src/github.com/blacknikka/kinesis-iot"
