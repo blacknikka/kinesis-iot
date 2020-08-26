@@ -2,7 +2,7 @@ resource "aws_iot_topic_rule" "iot_rule" {
   name        = "RuleForwardToKinesis"
   description = "Forward to kinesis from IoT Core"
   enabled     = true
-  sql         = "SELECT * FROM 'myTopic'"
+  sql         = "SELECT * FROM 'iot/#'"
   sql_version = "2016-03-23"
 
   kinesis {
