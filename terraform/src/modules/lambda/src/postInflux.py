@@ -5,12 +5,21 @@ import requests
 import os
 from datetime import datetime, timedelta
 
-# endpointを取得
+# endpointを取得(influxDBエンドポイント)
 influxEndpoint = os.environ['INFLUX_ENDPOINT']
 
 def lambda_handler(event: dict, context):
     influx_raw_query = ''
     for record in event['Records']:
+
+        # partitionによってPOST先を変更する
+        if record['kinesis']['partitionKey'] == 'iot/time':
+            # timeseris (InfluxDB)
+            print('timeseries')
+        else:
+            # mongoDB
+            print('stats')
+
         # base64されたデータを取得
         content64 = record['kinesis']['data']
 

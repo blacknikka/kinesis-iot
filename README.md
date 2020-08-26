@@ -15,7 +15,7 @@ terraform apply
   - https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/http.html
 
 ```bash
-curl --tlsv1.2 --cert iot-cert.cert.pem --key iot-moor.private.key -X POST -d '{"sens": 1.0, "sens2": 2.5}' https://<iot-core-endpoint>:8443/topics/myTopic
+curl --tlsv1.2 --cert iot-cert.cert.pem --key iot-moor.private.key -X POST -d '{"sens": 1.0, "sens2": 2.5}' https://<iot-core-endpoint>:8443/topics/iot/something
 ```
 
 ### Lambdaのビルド方法
