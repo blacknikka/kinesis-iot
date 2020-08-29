@@ -59,3 +59,14 @@ module "ecs" {
   subnet_for_app  = module.network.subnet_for_app
   subnet_for_app2 = module.network.subnet_for_app2
 }
+
+module "docdb" {
+  source = "./modules/docdb"
+
+  base_name         = var.base_name
+  vpc_main          = module.network.vpc_main
+  subnet_for_docdb1 = module.network.subnet_for_app
+  subnet_for_docdb2 = module.network.subnet_for_app2
+  docdb_password    = "secretsecret"
+}
+
