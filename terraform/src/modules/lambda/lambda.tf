@@ -28,6 +28,14 @@ resource "aws_lambda_function" "from_kinesis" {
   source_code_hash = data.archive_file.function_zip.output_base64sha256
   layers           = [aws_lambda_layer_version.lambda_layer.arn]
 
+  vpc_config {
+    subnet_ids = [
+      var.subnet_for_lambda1.id,
+      var.subnet_for_lambda2.id
+    ]
+    security_group_ids = [aws_security_group.for_lambda.id]
+  }
+
   environment {
     variables = {
       INFLUX_ENDPOINT        = var.influx_dns_name
@@ -44,3 +52,26 @@ resource "aws_lambda_event_source_mapping" "kinesis_to_lambda" {
   function_name     = aws_lambda_function.from_kinesis.arn
   starting_position = "LATEST"
 }
+
+# security group for lambda
+resource "aws_security_group" "for_lambda" {
+  name        = "for_lambda"
+  description = "for lambda"
+  vpc_id      = var.vpc_main.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+

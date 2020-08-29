@@ -52,6 +52,10 @@ module "lambda" {
   docdb_cluster_endpoint = module.docdb.docdb_cluster.endpoint
   docdb_admin_user       = var.docdb_admin_user
   docdb_password         = var.docdb_password
+
+  vpc_main           = module.network.vpc_main
+  subnet_for_lambda1 = module.network.subnet_for_app
+  subnet_for_lambda2 = module.network.subnet_for_app2
 }
 
 module "ecs" {
@@ -66,11 +70,12 @@ module "ecs" {
 module "docdb" {
   source = "./modules/docdb"
 
-  base_name         = var.base_name
-  vpc_main          = module.network.vpc_main
-  subnet_for_docdb1 = module.network.subnet_for_app
-  subnet_for_docdb2 = module.network.subnet_for_app2
-  docdb_admin_user  = var.docdb_admin_user
-  docdb_password    = var.docdb_password
+  base_name              = var.base_name
+  vpc_main               = module.network.vpc_main
+  subnet_for_docdb1      = module.network.subnet_for_app
+  subnet_for_docdb2      = module.network.subnet_for_app2
+  docdb_admin_user       = var.docdb_admin_user
+  docdb_password         = var.docdb_password
+  allowed_security_group = module.lambda.secutiry_group_for_lambda
 }
 

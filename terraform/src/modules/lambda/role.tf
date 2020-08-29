@@ -36,12 +36,12 @@ resource "aws_iam_role_policy" "lambda_access_policy" {
         "kinesis:GetRecords",
         "kinesis:GetShardIterator",
         "kinesis:DescribeStream",
-        "kinesis:ListStreams"
+        "kinesis:ListStreams",
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface"
       ],
-      "Resource": [
-        "arn:aws:logs:*:*:*",
-        "arn:aws:kinesis:*:*:stream/*"
-      ]
+      "Resource": "*"
     }
   ]
 }

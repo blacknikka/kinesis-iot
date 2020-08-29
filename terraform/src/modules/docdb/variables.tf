@@ -17,3 +17,5 @@ variable "docdb_instance_class" {
 variable "docdb_admin_user" {}
 variable "docdb_password" {}
 
+# allowd security group
+variable "allowed_security_group" {}
