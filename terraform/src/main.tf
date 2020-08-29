@@ -46,9 +46,12 @@ module "kinesis" {
 module "lambda" {
   source = "./modules/lambda"
 
-  base_name       = var.base_name
-  kinesis_iot     = module.kinesis.kinesis_iot
-  influx_dns_name = module.ecs.influx_dns_name
+  base_name              = var.base_name
+  kinesis_iot            = module.kinesis.kinesis_iot
+  influx_dns_name        = module.ecs.influx_dns_name
+  docdb_cluster_endpoint = module.docdb.docdb_cluster.endpoint
+  docdb_admin_user       = var.docdb_admin_user
+  docdb_password         = var.docdb_password
 }
 
 module "ecs" {
@@ -67,6 +70,7 @@ module "docdb" {
   vpc_main          = module.network.vpc_main
   subnet_for_docdb1 = module.network.subnet_for_app
   subnet_for_docdb2 = module.network.subnet_for_app2
-  docdb_password    = "secretsecret"
+  docdb_admin_user  = var.docdb_admin_user
+  docdb_password    = var.docdb_password
 }
 

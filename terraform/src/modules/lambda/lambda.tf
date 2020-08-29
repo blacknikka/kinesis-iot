@@ -21,7 +21,7 @@ resource "aws_lambda_layer_version" "lambda_layer" {
 resource "aws_lambda_function" "from_kinesis" {
   function_name = "${var.base_name}_from_kinesis"
 
-  handler          = "src/postInflux.lambda_handler"
+  handler          = "src/postData.lambda_handler"
   filename         = data.archive_file.function_zip.output_path
   runtime          = "python3.6"
   role             = aws_iam_role.lambda_iam_role.arn
@@ -30,7 +30,10 @@ resource "aws_lambda_function" "from_kinesis" {
 
   environment {
     variables = {
-      INFLUX_ENDPOINT = var.influx_dns_name
+      INFLUX_ENDPOINT        = var.influx_dns_name
+      DOCDB_CLUSTER_ENDPOINT = var.docdb_cluster_endpoint
+      DOCDB_ADMIN_USER       = var.docdb_admin_user
+      DOCDB_ADMIN_PASSWORD   = var.docdb_password
     }
   }
 }

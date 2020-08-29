@@ -7,6 +7,11 @@ fi
 # Recreate build directory
 mkdir -p build/function/ build/layer/
 
+# download cert file
+wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -O rds-combined-ca-bundle.pem
+# copy cert file
+cp rds-combined-ca-bundle.pem build/function
+
 # Copy source files
 echo "Copy source files"
 cp -r src build/function/
