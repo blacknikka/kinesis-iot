@@ -1,3 +1,9 @@
+# vpc
+variable "vpc_main" {}
+variable "subnet_for_lambda1" {}
+variable "subnet_for_lambda2" {}
+
+
 # base name
 variable "base_name" {}
 
