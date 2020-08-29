@@ -13,6 +13,7 @@ variable "docdb_instance_class" {
   default = "db.t3.medium"
 }
 
-# password
+# admin
+variable "docdb_admin_user" {}
 variable "docdb_password" {}
 
