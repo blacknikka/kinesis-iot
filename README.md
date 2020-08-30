@@ -10,7 +10,7 @@ terraform init
 terraform apply
 ```
 
-### kinesisへのデータのPOSTER方法
+### kinesisへのデータのPOST方法
 - 参考
   - https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/http.html
 
