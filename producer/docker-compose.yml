@@ -1,5 +1,13 @@
 version: '3'
 services:
+  app:
+    build: ./producer
+    tty: true
+    working_dir: /go/src/github.com/blacknikka/kinesis-iot
+    volumes:
+      - "./producer/src:/go/src/github.com/blacknikka/kinesis-iot"
+    environment:
+      IOT_ENDPOINT: ${IOT_ENDPOINT}
   mock-sender:
     build: ./mock-data-generator
     tty: true
