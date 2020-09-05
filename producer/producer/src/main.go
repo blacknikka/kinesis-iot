@@ -32,7 +32,9 @@ func main() {
 	// 	panic(fmt.Sprintf("failed to subscribe %s: %v", SubTopic, token.Error()))
 	// }
 
-	awsIoT.Send("iot/stats", `{"message": "こんにちは"}`)
+	if err := awsIoT.Send("iot/stats", `{"message": "こんにちは"}`); err != nil {
+		panic(err.Error())
+	}
 
 	for {
 		time.Sleep(10 * time.Second)

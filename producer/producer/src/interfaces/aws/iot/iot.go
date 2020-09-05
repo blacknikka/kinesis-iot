@@ -3,6 +3,7 @@ package iot
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -27,9 +28,18 @@ type AWSIoT struct {
 	client mqtt.Client
 }
 
+func (*AWSIoT) isJSON(s string) bool {
+	var js map[string]interface{}
+	return json.Unmarshal([]byte(s), &js) == nil
+}
+
 func (iot *AWSIoT) Send(topic string, message string) error {
 	if iot.tlsConfig == nil {
 		return fmt.Errorf("TLSConfig is null. Please set TLS config before you use.")
+	}
+
+	if iot.isJSON(message) == false {
+		return fmt.Errorf("Message should be json format. => %s", message)
 	}
 
 	log.Printf("publishing %s...\n", topic)
