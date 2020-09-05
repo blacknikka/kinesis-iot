@@ -39,7 +39,7 @@ func (iot *AWSIoT) Send(topic string, message string) error {
 	}
 
 	if iot.isJSON(message) == false {
-		return fmt.Errorf("Message should be json format. => %s", message)
+		return fmt.Errorf("Message should be json format. [%s]", message)
 	}
 
 	log.Printf("publishing %s...\n", topic)
