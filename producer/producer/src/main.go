@@ -3,10 +3,11 @@ package main
 import (
 	"net/http"
 	"os"
-	"time"
 
 	iotInterface "github.com/blacknikka/kinesis-iot/interfaces/aws/iot"
 	iotUsecase "github.com/blacknikka/kinesis-iot/usecases/aws/iot"
+
+	"github.com/blacknikka/kinesis-iot/usecases/serve"
 )
 
 func main() {
@@ -31,14 +32,21 @@ func main() {
 		panic(err.Error())
 	}
 
-	// // serve
-	// IoTServeUsecase
+	serverUsecase := serve.IoTServeUsecase{
+		HttpHandler: &serve.Serve{
+			PostToIoT: awsIoT.Send,
+		},
+	}
 
-	if err := awsIoT.Send("iot/stats", `{"message": "こんにちは"}`); err != nil {
+	if err := serverUsecase.Serve(":8000"); err != nil {
 		panic(err.Error())
 	}
 
-	for {
-		time.Sleep(10 * time.Second)
-	}
+	// if err := awsIoT.Send("iot/stats", `{"message": "こんにちは"}`); err != nil {
+	// 	panic(err.Error())
+	// }
+
+	// for {
+	// 	time.Sleep(10 * time.Second)
+	// }
 }

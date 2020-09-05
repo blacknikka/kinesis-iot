@@ -8,6 +8,8 @@ services:
       - "./producer/src:/go/src/github.com/blacknikka/kinesis-iot"
     environment:
       IOT_ENDPOINT: ${IOT_ENDPOINT}
+    ports:
+      - 8000:8000
   mock-sender:
     build: ./mock-data-generator
     tty: true
