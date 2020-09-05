@@ -4,16 +4,19 @@ import (
 	"fmt"
 
 	"github.com/blacknikka/kinesis-iot/interfaces/aws/mongo"
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/blacknikka/kinesis-iot/usecases/stats/current"
 )
 
 func main() {
-	mongoDB := mongo.Mongo{}
+	mongoDB := &mongo.Mongo{}
 	if err := mongoDB.Connect(); err != nil {
 		fmt.Println(err.Error())
 	}
 
-	count, err := mongoDB.CountAll("sample-database", "col", bson.D{{"kind", "start"}})
+	statas := &current.CurrentStats{
+		MongoUsecase: mongoDB,
+	}
+	count, err := statas.GetCurrentStartAmount()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
