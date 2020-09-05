@@ -8,3 +8,10 @@
 
 ### 参考サイト
 - https://mikan.github.io/2018/10/22/accessing-aws-iot-mqtt-through-port-443-from-go/
+
+### how to use
+- 鍵、証明書を配置(`cert`フォルダ)する
+  - 以下のシェルスクリプト実行
+```bash
+$ sh MakeKey.sh
+```
