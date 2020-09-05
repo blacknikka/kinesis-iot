@@ -76,7 +76,6 @@ func (iot *AWSIoT) Init() error {
 	}
 
 	endpoint := fmt.Sprintf("ssl://%s:%d", iot.IotEndPoint, 443)
-	fmt.Println(endpoint)
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(endpoint)
 	opts.SetTLSConfig(iot.tlsConfig)

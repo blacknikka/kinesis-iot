@@ -39,7 +39,7 @@ def lambda_handler(event: dict, context):
             # documentDB
             print('stats')
             print(record)
-            postDocumentDB(record)
+            postDocumentDB(record['kinesis'])
 
     # insert to influxDB
     if influx_raw_query != '':
@@ -98,6 +98,12 @@ def postDocumentDB(data):
 
     db = client.machines
     col = db.playdata
-    col.insert_one({'hello':'Amazon DocumentDB'})
+
+    # utf-8でエンコードしてからbase64デコードする
+    content64 = data['data']
+    content = base64.decodebytes(content64.encode('utf-8'))
+    json_dict = json.loads(content)
+
+    col.insert_one({'data': json_dict, 'timestamp': data['approximateArrivalTimestamp']})
 
     client.close()
