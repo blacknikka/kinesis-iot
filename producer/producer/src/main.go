@@ -28,6 +28,12 @@ func main() {
 	}
 
 	err := iot.InitIoT()
+	defer func() {
+		if err := iot.IoT.Close(); err != nil {
+			panic(err.Error())
+		}
+	}()
+
 	if err != nil {
 		panic(err.Error())
 	}
@@ -41,12 +47,4 @@ func main() {
 	if err := serverUsecase.Serve(":8000"); err != nil {
 		panic(err.Error())
 	}
-
-	// if err := awsIoT.Send("iot/stats", `{"message": "こんにちは"}`); err != nil {
-	// 	panic(err.Error())
-	// }
-
-	// for {
-	// 	time.Sleep(10 * time.Second)
-	// }
 }
