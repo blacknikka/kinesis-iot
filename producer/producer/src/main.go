@@ -5,14 +5,15 @@ import (
 	"os"
 	"time"
 
-	"github.com/blacknikka/kinesis-iot/interfaces/aws/iot"
+	iotInterface "github.com/blacknikka/kinesis-iot/interfaces/aws/iot"
+	iotUsecase "github.com/blacknikka/kinesis-iot/usecases/aws/iot"
 )
 
 func main() {
 	iotEndPoint := os.Getenv("IOT_ENDPOINT")
 
 	client := &http.Client{}
-	awsIoT := &iot.AWSIoT{
+	awsIoT := &iotInterface.AWSIoT{
 		Client:      client,
 		ThingName:   "iot",
 		IotEndPoint: iotEndPoint,
@@ -21,16 +22,17 @@ func main() {
 		KeyFile:     "./cert/iot-motor.private.key",
 	}
 
-	err := awsIoT.Init()
+	iot := iotUsecase.IoTUsecase{
+		IoT: awsIoT,
+	}
+
+	err := iot.InitIoT()
 	if err != nil {
 		panic(err.Error())
 	}
 
-	// // Subscribe
-	// log.Printf("subscribing %s...\n", SubTopic)
-	// if token := client.Subscribe(SubTopic, QoS, handleMsg); token.Wait() && token.Error() != nil {
-	// 	panic(fmt.Sprintf("failed to subscribe %s: %v", SubTopic, token.Error()))
-	// }
+	// // serve
+	// IoTServeUsecase
 
 	if err := awsIoT.Send("iot/stats", `{"message": "こんにちは"}`); err != nil {
 		panic(err.Error())
