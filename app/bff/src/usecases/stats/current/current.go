@@ -23,7 +23,7 @@ func NewCurrentStats(usecase mongo.MongoUsecase) *currentStats {
 func (stats *currentStats) GetCurrentStartAmount(version string) (int64, error) {
 	count, err := stats.MongoUsecase.CountAll(
 		stats.dbName,
-		"col",
+		os.Getenv("NORMAL_COLLECTION"),
 		bson.D{
 			{"kind", "start"},
 			{"ver", version},

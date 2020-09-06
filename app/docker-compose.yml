@@ -9,17 +9,10 @@ services:
     environment:
       IOT_ENDPOINT: ${IOT_ENDPOINT}
       DATABSE_NAME: ${DATABSE_NAME}
+      NORMAL_COLLECTION: ${NORMAL_COLLECTION}
+      SUMMARY_COLLECTION: ${SUMMARY_COLLECTION}
     ports:
       - 8080:8080
-  db:
-    build: ./bff/db
-    volumes:
-      - "./bff/db/data:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - 5432:5432
   mongo:
     image: mongo
     volumes:

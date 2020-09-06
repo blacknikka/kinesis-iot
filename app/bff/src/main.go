@@ -1,14 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/blacknikka/kinesis-iot/interfaces/aws/mongo"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/get"
+	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/store"
 	"github.com/blacknikka/kinesis-iot/usecases/stats/current"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 func main() {
@@ -18,6 +17,7 @@ func main() {
 	}
 
 	// current stats
+	fmt.Println("get current stats")
 	stats := current.NewCurrentStats(mongoDB)
 	count, err := stats.GetCurrentStartAmount("ver1")
 	if err != nil {
@@ -25,16 +25,21 @@ func main() {
 	}
 	fmt.Println(count)
 
-	// connect db
-	dsn := "host=db user=admin password=admin dbname=db port=5432 sslmode=disable TimeZone=Asia/Tokyo"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// store summary stats
+	fmt.Println("store summary")
+	storeSummaryStats := store.NewStoreSummaryStats(mongoDB)
+	err = storeSummaryStats.StoreSummaryStartAmount("ver1")
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err.Error())
 	}
-	getSummary := get.NewGetSummaryStats(db)
-	summaryCount, err := getSummary.GetSummaryStartAmount("ver1")
+
+	// summary stats
+	fmt.Println("get summary stats")
+	summaryStats := get.NewGetSummaryStats(mongoDB)
+	summaryResult, err := summaryStats.GetSummaryStartAmount("ver1")
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err.Error())
 	}
-	fmt.Println(summaryCount)
+	marshaled, err := json.Marshal(summaryResult)
+	fmt.Println(string(marshaled))
 }
