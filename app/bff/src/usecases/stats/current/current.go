@@ -1,7 +1,6 @@
 package current
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/blacknikka/kinesis-iot/usecases/mongo"
@@ -31,7 +30,7 @@ func (stats *currentStats) GetCurrentStartAmount(version string) (int64, error) 
 		},
 	)
 	if err != nil {
-		fmt.Println(err.Error())
+		return 0, err
 	}
 
 	return count, nil
