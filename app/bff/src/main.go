@@ -12,6 +12,8 @@ import (
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/current"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/get"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/store"
+	currentUsecase "github.com/blacknikka/kinesis-iot/usecases/stats/current"
+	summaryUsecase "github.com/blacknikka/kinesis-iot/usecases/stats/summary/get"
 	tickerUsecase "github.com/blacknikka/kinesis-iot/usecases/ticker"
 )
 
@@ -20,15 +22,6 @@ func main() {
 	if err := mongoDB.Connect(); err != nil {
 		fmt.Println(err.Error())
 	}
-
-	// current stats
-	fmt.Println("get current stats")
-	stats := current.NewCurrentStats(mongoDB)
-	count, err := stats.GetCurrentStartAmount("ver1")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println(count)
 
 	// store summary stats
 	fmt.Println("store summary")
@@ -55,10 +48,25 @@ func main() {
 		},
 	)
 
-	// summary stats
+	// get current stats
+	fmt.Println("get current stats")
+	stats := current.NewCurrentStats(mongoDB)
+	currentStatsUsecase := currentUsecase.CurrentStatsUsecase{
+		Current: stats,
+	}
+	count, err := currentStatsUsecase.GetCurrentStats("ver1")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println(count)
+
+	// get summary stats
 	fmt.Println("get summary stats")
 	summaryStats := get.NewGetSummaryStats(mongoDB)
-	summaryResult, err := summaryStats.GetSummaryStartAmount("ver1")
+	summaryStatsUsecase := summaryUsecase.SummaryStatsUsecase{
+		Summary: summaryStats,
+	}
+	summaryResult, err := summaryStatsUsecase.GetSummaryStats("ver1")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
