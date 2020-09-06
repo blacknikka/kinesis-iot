@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -111,26 +110,27 @@ func (m *Mongo) GetLastOne(db string, collection string, opt bson.D) (map[string
 
 	// 最新１件を取得する
 	findOptions := options.FindOne().SetSort(bson.D{{"_id", -1}})
-	var result bson.M
+	var doc bson.M
 	err := col.FindOne(
 		context.Background(),
 		opt,
 		findOptions,
-	).Decode(&result)
+	).Decode(&doc)
 
-	if err != nil {
+	fmt.Println("result:", doc)
+
+	if err == mongo.ErrNoDocuments {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 
-	bytesBuf, err := bson.MarshalExtJSON(result, true, true)
-	if err != nil {
-		return nil, err
+	result := make(map[string]interface{})
+	for key, val := range doc {
+		result[key] = val
 	}
 
-	var jsonDocument map[string]interface{}
-	json.Unmarshal(bytesBuf, &jsonDocument)
-
-	return jsonDocument, nil
+	return result, nil
 }
 
 func (m *Mongo) InsertOne(db string, collection string, document bson.D) error {
