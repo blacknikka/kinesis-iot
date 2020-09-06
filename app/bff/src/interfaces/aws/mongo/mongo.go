@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -103,4 +104,41 @@ func (m *Mongo) CountAll(db string, collection string, where bson.D) (int64, err
 	}
 
 	return count, nil
+}
+
+func (m *Mongo) GetLastOne(db string, collection string, opt bson.D) (map[string]interface{}, error) {
+	col := m.client.Database(db).Collection(collection)
+
+	// 最新１件を取得する
+	findOptions := options.FindOne().SetSort(bson.D{{"_id", -1}})
+	var result bson.M
+	err := col.FindOne(
+		context.Background(),
+		opt,
+		findOptions,
+	).Decode(&result)
+
+	if err != nil {
+		return nil, err
+	}
+
+	bytesBuf, err := bson.MarshalExtJSON(result, true, true)
+	if err != nil {
+		return nil, err
+	}
+
+	var jsonDocument map[string]interface{}
+	json.Unmarshal(bytesBuf, &jsonDocument)
+
+	return jsonDocument, nil
+}
+
+func (m *Mongo) InsertOne(db string, collection string, document bson.D) error {
+	col := m.client.Database(db).Collection(collection)
+	_, err := col.InsertOne(context.Background(), document)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
