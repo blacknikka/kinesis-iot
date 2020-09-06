@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/blacknikka/kinesis-iot/interfaces/aws/mongo"
+	"github.com/blacknikka/kinesis-iot/interfaces/stats/current"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/get"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/store"
-	"github.com/blacknikka/kinesis-iot/usecases/stats/current"
 )
 
 func main() {
