@@ -1,5 +1,10 @@
 package get
 
-type GetSummaryStatsUsecase interface {
-	GetSummaryStartAmount(string) (int64, error)
+type SummaryStatsInterface interface {
+	GetSummaryStartAmount(string) (map[string]interface{}, error)
+}
+
+type SummaryStatsResponse struct {
+	Kind    string                 `json:"kind"`
+	Summary map[string]interface{} `json:"summary"`
 }
