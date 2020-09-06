@@ -13,10 +13,8 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
-	statas := &current.CurrentStats{
-		MongoUsecase: mongoDB,
-	}
-	count, err := statas.GetCurrentStartAmount()
+	stats := current.NewCurrentStats(mongoDB)
+	count, err := stats.GetCurrentStartAmount("ver1")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
