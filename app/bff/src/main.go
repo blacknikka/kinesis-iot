@@ -1,13 +1,18 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
+	"github.com/blacknikka/kinesis-iot/entities/event"
+	"github.com/blacknikka/kinesis-iot/entities/ticker"
 	"github.com/blacknikka/kinesis-iot/interfaces/aws/mongo"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/current"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/get"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/store"
+	tickerUsecase "github.com/blacknikka/kinesis-iot/usecases/ticker"
 )
 
 func main() {
@@ -28,10 +33,27 @@ func main() {
 	// store summary stats
 	fmt.Println("store summary")
 	storeSummaryStats := store.NewStoreSummaryStats(mongoDB)
-	err = storeSummaryStats.StoreSummaryStartAmount("ver1")
-	if err != nil {
-		fmt.Println(err.Error())
+	eventFunc := func() error {
+		fmt.Println("StoreSummaryStartAmount")
+		err := storeSummaryStats.StoreSummaryStartAmount("ver1")
+		if err != nil {
+			fmt.Printf("error occurred [%v]", err)
+		}
+		return nil
 	}
+
+	// set ticker
+	tUsecase := tickerUsecase.TickerUseacse{}
+	ctx, cancel := context.WithCancel(context.Background())
+	tUsecase.SetTicker(
+		ctx,
+		&ticker.Ticker{
+			Duration: time.Duration(5 * time.Second),
+			Event: event.Event{
+				Func: eventFunc,
+			},
+		},
+	)
 
 	// summary stats
 	fmt.Println("get summary stats")
@@ -42,4 +64,8 @@ func main() {
 	}
 	marshaled, err := json.Marshal(summaryResult)
 	fmt.Println(string(marshaled))
+
+	time.Sleep(time.Second * 16)
+	cancel()
+	time.Sleep(time.Second * 2)
 }
