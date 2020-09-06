@@ -8,6 +8,7 @@ services:
       - "./bff/src:/go/src/github.com/blacknikka/kinesis-iot"
     environment:
       IOT_ENDPOINT: ${IOT_ENDPOINT}
+      DATABSE_NAME: ${DATABSE_NAME}
     ports:
       - 8080:8080
   db:
