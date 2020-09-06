@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -12,8 +11,8 @@ import (
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/current"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/get"
 	"github.com/blacknikka/kinesis-iot/interfaces/stats/summary/store"
-	currentUsecase "github.com/blacknikka/kinesis-iot/usecases/stats/current"
-	summaryUsecase "github.com/blacknikka/kinesis-iot/usecases/stats/summary/get"
+	"github.com/blacknikka/kinesis-iot/usecases/serve"
+	"github.com/blacknikka/kinesis-iot/usecases/serve/handler"
 	tickerUsecase "github.com/blacknikka/kinesis-iot/usecases/ticker"
 )
 
@@ -48,32 +47,26 @@ func main() {
 		},
 	)
 
-	// get current stats
-	fmt.Println("get current stats")
+	// current stats
 	stats := current.NewCurrentStats(mongoDB)
-	currentStatsUsecase := currentUsecase.CurrentStatsUsecase{
-		Current: stats,
-	}
-	count, err := currentStatsUsecase.GetCurrentStats("ver1")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println(count)
-
-	// get summary stats
-	fmt.Println("get summary stats")
+	// summary stats
 	summaryStats := get.NewGetSummaryStats(mongoDB)
-	summaryStatsUsecase := summaryUsecase.SummaryStatsUsecase{
-		Summary: summaryStats,
-	}
-	summaryResult, err := summaryStatsUsecase.GetSummaryStats("ver1")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	marshaled, err := json.Marshal(summaryResult)
-	fmt.Println(string(marshaled))
 
-	time.Sleep(time.Second * 16)
+	// serve
+	serveUsecase := serve.ServeUsecase{
+		CurrentStatsHandler: handler.ServeCurrentStats{
+			CurrentUsecase: stats,
+		},
+		SummaryStatsHandler: handler.ServeSummaryStats{
+			SummaryUsecase: summaryStats,
+		},
+	}
+
+	if err := serveUsecase.Serve(":8080"); err != nil {
+		panic(err.Error())
+	}
+
+	// cancel context
 	cancel()
 	time.Sleep(time.Second * 2)
 }
