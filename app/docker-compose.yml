@@ -20,3 +20,11 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
+  front:
+    build: ./front/
+    tty: true
+    volumes:
+      - ./front/src/front:/app
+      - ./front/yarn-cache:/usr/local/share/.cache/yarn/v2
+    ports:
+      - 3000:3000
