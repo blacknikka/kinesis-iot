@@ -24,7 +24,7 @@ services:
     build: ./front/
     tty: true
     volumes:
-      - ./front/src/front:/app
+      - ./front/src:/app
       - ./front/yarn-cache:/usr/local/share/.cache/yarn/v2
     ports:
       - 3000:3000
