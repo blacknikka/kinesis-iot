@@ -9,7 +9,7 @@ import {setupStore} from './store';
 import {IRootState} from './modules';
 import CurrentStats from './components/currentStats';
 import SummaryStats from './components/summaryStats';
-import {currentActions} from './modules/statsModule';
+import {currentActions, fetchCurrentStats} from './modules/statsModule';
 
 const store = setupStore();
 
@@ -20,6 +20,7 @@ const App: React.FC = () => {
     kind: 'current',
     stats: 100,
   };
+  dispatch(fetchCurrentStats());
   const summary: ISummaryStats = {
     kind: 'current',
     summary: {
