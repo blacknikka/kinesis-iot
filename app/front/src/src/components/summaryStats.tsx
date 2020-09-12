@@ -11,6 +11,7 @@ const SummaryStats: React.FC<{stats: ISummaryStats}> = ({stats}) => {
     background: '#639',
     margin: 'auto',
   };
+  console.log(stats.summary);
   return (
     <div style={style}>
       summary stats:
@@ -18,7 +19,7 @@ const SummaryStats: React.FC<{stats: ISummaryStats}> = ({stats}) => {
       <div>summary:</div>
       {Object.keys(stats.summary).map((key) => {
         return (
-          <div>
+          <div key={key}>
             <p>{key}:</p>
             <div>{stats.summary[key]}</div>
           </div>

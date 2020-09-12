@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
+require('dotenv').config()
+const webpack = require("webpack");
 
 module.exports = {
   entry: __dirname + '/src/index.tsx',
@@ -10,6 +11,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'src/templates/index.html'
+    }),
+    new webpack.DefinePlugin({
+      "process.env": {
+        'REACT_APP_BACKEND_ENDPOINT': JSON.stringify(process.env.REACT_APP_BACKEND_ENDPOINT),
+      },
     }),
   ],
   output: {
@@ -28,5 +34,6 @@ module.exports = {
     compress: true,
     port: 3000,
     host: '0.0.0.0',
-  }
+  },
+  target: 'node',
 }
