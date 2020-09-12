@@ -3,7 +3,7 @@ import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import statsModule from './modules/statsModule';
 
 const rootReducer = combineReducers({
-  task: statsModule.reducer,
+  currentStats: statsModule.reducer,
 });
 
 export const setupStore = () => {

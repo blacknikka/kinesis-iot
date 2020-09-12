@@ -15,11 +15,7 @@ const store = setupStore();
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const taskState = useSelector((state: IRootState) => state.currentStats);
-  const cur: ICurrentStats = {
-    kind: 'current',
-    stats: 100,
-  };
+
   dispatch(fetchCurrentStats());
   const summary: ISummaryStats = {
     kind: 'current',
@@ -30,7 +26,7 @@ const App: React.FC = () => {
   };
   return (
     <>
-      <CurrentStats stats={cur} />
+      <CurrentStats stats={store.getState().currentStats} />
       <SummaryStats stats={summary} />
     </>
   );
