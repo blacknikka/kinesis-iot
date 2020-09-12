@@ -4,9 +4,11 @@ import {Provider} from 'react-redux';
 import {useDispatch, useSelector} from 'react-redux';
 
 import ICurrentStats from './models/ICurrentStats';
+import ISummaryStats from './models/ISummaryStats';
 import {setupStore} from './store';
 import {IRootState} from './modules';
 import CurrentStats from './components/currentStats';
+import SummaryStats from './components/summaryStats';
 import {currentActions} from './modules/statsModule';
 
 const store = setupStore();
@@ -18,9 +20,17 @@ const App: React.FC = () => {
     kind: 'current',
     stats: 100,
   };
+  const summary: ISummaryStats = {
+    kind: 'current',
+    summary: {
+      total: 500,
+      event: 200,
+    },
+  };
   return (
     <>
       <CurrentStats stats={cur} />
+      <SummaryStats stats={summary} />
     </>
   );
 };
