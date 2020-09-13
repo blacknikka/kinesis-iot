@@ -2,21 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {useDispatch, useSelector} from 'react-redux';
-
+import statsModule, {
+    fetchCurrentStats,
+  } from './modules/statsModule';
+  
 import ICurrentStats from './models/ICurrentStats';
 import ISummaryStats from './models/ISummaryStats';
 import {setupStore} from './store';
 import {IRootState} from './modules';
 import CurrentStats from './components/currentStats';
 import SummaryStats from './components/summaryStats';
-import {currentActions, fetchCurrentStats} from './modules/statsModule';
 
 const store = setupStore();
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-
   dispatch(fetchCurrentStats());
+
   const summary: ISummaryStats = {
     kind: 'current',
     summary: {
@@ -26,7 +28,7 @@ const App: React.FC = () => {
   };
   return (
     <>
-      <CurrentStats stats={store.getState().currentStats} />
+      <CurrentStats />
       <SummaryStats stats={summary} />
     </>
   );

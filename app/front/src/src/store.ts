@@ -1,15 +1,17 @@
-import {combineReducers} from 'redux';
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import {configureStore} from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 import statsModule from './modules/statsModule';
+
+const middlewares = [thunk];
 
 const rootReducer = combineReducers({
   currentStats: statsModule.reducer,
 });
 
 export const setupStore = () => {
-  const middleware = getDefaultMiddleware();
-  return configureStore({
-    reducer: rootReducer,
-    middleware,
-  });
+  return createStore(
+    rootReducer,
+    applyMiddleware(...middlewares)
+  );
 };
