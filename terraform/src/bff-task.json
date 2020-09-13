@@ -1,12 +1,12 @@
 [
     {
-        "name": "grafana",
+        "name": "bff",
         "image": "${image_url}",
         "portMappings": [
             {
-                "hostPort": 3000,
+                "hostPort": 8080,
                 "protocol": "tcp",
-                "containerPort": 3000
+                "containerPort": 8080
             }
         ],
         "memoryReservation": 256,
