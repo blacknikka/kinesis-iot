@@ -22,7 +22,7 @@ func (s ServeSummaryStats) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := summaryUsecase.SummaryStatsResponse{
-		Kind:    "current",
+		Kind:    "summary",
 		Summary: sumaryContent,
 	}
 

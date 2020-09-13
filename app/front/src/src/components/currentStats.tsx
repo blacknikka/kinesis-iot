@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../modules/axios';
 
 interface State {
   kind: string;
@@ -12,18 +12,10 @@ class CurrentStats extends React.Component<{}, State> {
       kind: '',
       stats: 0,
     };
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BACKEND_ENDPOINT,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      responseType: 'json',
-    });
 
-    axiosInstance
+    axios
       .get('/current')
       .then((response) => {
-        console.log(response);
         this.setState({
           kind: response.data.kind,
           stats: response.data.stats,

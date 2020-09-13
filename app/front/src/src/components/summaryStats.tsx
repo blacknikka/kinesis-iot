@@ -1,32 +1,55 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import axios from '../modules/axios';
 
-import ISummaryStats from '../models/ISummaryStats';
+interface State {
+  kind: string;
+  [key: string]: any;
+}
+export default class SummaryStats extends React.Component<{}, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      kind: '',
+      key: '',
+    };
 
-const SummaryStats: React.FC<{stats: ISummaryStats}> = ({stats}) => {
-  const style: any = {
-    paddingTop: '3%',
-    width: '40%',
-    color: '#fff',
-    background: '#639',
-    margin: 'auto',
-  };
-  console.log(stats.summary);
-  return (
-    <div style={style}>
-      summary stats:
-      <div>kind: {stats.kind}</div>
-      <div>summary:</div>
-      {Object.keys(stats.summary).map((key) => {
-        return (
-          <div key={key}>
-            <p>{key}:</p>
-            <div>{stats.summary[key]}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+    axios
+      .get('/summary')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          kind: response.data.kind,
+          key: response.data.summary,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error('something wrong.');
+      });
+  }
 
-export default SummaryStats;
+  render() {
+    const style: any = {
+      paddingTop: '3%',
+      width: '40%',
+      color: '#fff',
+      background: '#639',
+      margin: 'auto',
+    };
+    return (
+      <div style={style}>
+        summary stats:
+        <div>kind: {this.state.kind}</div>
+        <div>summary:</div>
+        {Object.keys(this.state.key).map((key) => {
+          return (
+            <div key={key}>
+              <p>{key}:</p>
+              <div>{this.state.key[key]}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
