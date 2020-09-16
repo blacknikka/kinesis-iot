@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  bff:
     build: ./bff
     tty: true
     working_dir: /go/src/github.com/blacknikka/kinesis-iot
