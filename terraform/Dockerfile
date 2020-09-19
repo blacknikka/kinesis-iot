@@ -2,7 +2,8 @@ FROM amazon/aws-cli:2.0.14
 
 RUN yum install -y \
     unzip \
-    jq
+    jq \
+    make
 
 WORKDIR /terraform
 

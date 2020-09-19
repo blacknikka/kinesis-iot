@@ -18,4 +18,6 @@ variable "docdb_admin_user" {}
 variable "docdb_password" {}
 
 # allowd security group
-variable "allowed_security_group" {}
+variable "allowed_security_group" {
+  type    = list(string)
+}

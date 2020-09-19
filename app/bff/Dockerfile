@@ -14,5 +14,6 @@ FROM alpine:3.12
 COPY --from=build /go/src/github.com/blacknikka/kinesis-iot/main /app/main
 WORKDIR /app
 RUN chmod +x /app/main
+RUN wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 
 CMD [ "/app/main" ]

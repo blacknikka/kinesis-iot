@@ -20,6 +20,7 @@ resource "aws_ecs_service" "app" {
   launch_type     = "FARGATE"
   depends_on = [
     var.ecs_execution_role,
+    aws_alb_listener.listner_app,
   ]
 
   load_balancer {

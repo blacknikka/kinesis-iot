@@ -7,7 +7,10 @@ services:
     volumes:
       - "./bff/src:/go/src/github.com/blacknikka/kinesis-iot"
     environment:
-      IOT_ENDPOINT: ${IOT_ENDPOINT}
+      CLUSTER_ENDPOINT: ${CLUSTER_ENDPOINT}
+      CLUSTER_USERNAME: ${CLUSTER_USERNAME}
+      CLUSTER_PASSWORD: ${CLUSTER_PASSWORD}
+      CLUSTER_OPTIONS: ${CLUSTER_OPTIONS}
       DATABSE_NAME: ${DATABSE_NAME}
       NORMAL_COLLECTION: ${NORMAL_COLLECTION}
       SUMMARY_COLLECTION: ${SUMMARY_COLLECTION}

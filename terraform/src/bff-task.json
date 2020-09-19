@@ -9,6 +9,36 @@
                 "containerPort": 8080
             }
         ],
+        "environment": [
+            {
+                "name": "CLUSTER_ENDPOINT",
+                "value": "${CLUSTER_ENDPOINT}"
+            },
+            {
+                "name": "CLUSTER_USERNAME",
+                "value": "${CLUSTER_USERNAME}"
+            },
+            {
+                "name": "CLUSTER_PASSWORD",
+                "value": "${CLUSTER_PASSWORD}"
+            },
+            {
+                "name": "CLUSTER_OPTIONS",
+                "value": "${CLUSTER_OPTIONS}"
+            },
+            {
+                "name": "DATABSE_NAME",
+                "value": "${DATABSE_NAME}"
+            },
+            {
+                "name": "NORMAL_COLLECTION",
+                "value": "${NORMAL_COLLECTION}"
+            },
+            {
+                "name": "SUMMARY_COLLECTION",
+                "value": "${SUMMARY_COLLECTION}"
+            }
+        ],
         "memoryReservation": 256,
         "essential": true,
         "logConfiguration": {

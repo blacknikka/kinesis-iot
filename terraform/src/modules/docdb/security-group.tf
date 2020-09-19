@@ -11,10 +11,11 @@ resource "aws_security_group" "docdb" {
 }
 
 resource "aws_security_group_rule" "allowd_secutiry" {
+  for_each = toset(var.allowed_security_group)
   type                     = "ingress"
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
-  source_security_group_id = var.allowed_security_group.id
+  source_security_group_id = each.value
   security_group_id        = aws_security_group.docdb.id
 }
