@@ -33,3 +33,6 @@ services:
       - ./front/yarn-cache:/usr/local/share/.cache/yarn/v2
     ports:
       - 3000:3000
+    environment:
+      REACT_APP_BACKEND_ENDPOINT: ${REACT_APP_BACKEND_ENDPOINT}
+

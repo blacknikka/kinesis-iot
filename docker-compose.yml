@@ -17,9 +17,12 @@ services:
     volumes:
       - "./app:/app"
       - "./app/deploy.sh:/app/deploy.sh"
+      - "./app/front/src/build:/front"
+      - "./app/deploy-front.sh:/app/deploy-front.sh"
     privileged: true
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
       AWS_ACCOUNT: ${AWS_ACCOUNT}
+      BUCKET_NAME: ${BUCKET_NAME}
