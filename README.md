@@ -10,6 +10,11 @@ terraform init
 terraform apply
 ```
 
+### デプロイ方法(ECRへのデプロイ)
+```
+$ make deploy-bff
+```
+
 ### kinesisへのデータのPOST方法
 - 参考
   - https://docs.aws.amazon.com/ja_jp/iot/latest/developerguide/http.html

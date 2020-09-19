@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,30 +23,26 @@ const (
 	// Path to the AWS CA file
 	caFilePath = "rds-combined-ca-bundle.pem"
 
-	queryTimeout    = 30
-	username        = "root"
-	password        = "root"
-	clusterEndpoint = "mongo:27017"
+	queryTimeout = 30
 
 	// Which instances to read from
 	readPreference = "secondaryPreferred"
 )
 
 func (m *Mongo) Connect() error {
-	// connectionURI := fmt.Sprintf(
-	// 	"mongodb://%s:%s@%s/sample-database?ssl=true&replicaSet=rs0&readpreference=%s",
-	// 	username,
-	// 	password,
-	// 	clusterEndpoint,
-	// 	readPreference,
-	// )
+	clusterEndpoint := os.Getenv("CLUSTER_ENDPOINT")
+	username := os.Getenv("CLUSTER_USERNAME")
+	password := os.Getenv("CLUSTER_PASSWORD")
+	connectingOptions := os.Getenv("CLUSTER_OPTIONS")
 
 	connectionURI := fmt.Sprintf(
-		"mongodb://%s:%s@%s",
+		"mongodb://%s:%s@%s%s",
 		username,
 		password,
 		clusterEndpoint,
+		connectingOptions,
 	)
+	fmt.Println(connectionURI)
 
 	// tlsConfig, err := getCustomTLSConfig(caFilePath)
 	// if err != nil {

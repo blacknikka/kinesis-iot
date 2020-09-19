@@ -136,7 +136,10 @@ module "docdb" {
   subnet_for_docdb2      = module.network.subnet_for_app2
   docdb_admin_user       = var.docdb_admin_user
   docdb_password         = var.docdb_password
-  allowed_security_group = module.lambda.secutiry_group_for_lambda
+  allowed_security_group = [
+      module.lambda.secutiry_group_for_lambda.id,
+      module.ecs_bff.security_group.id,
+  ]
 }
 
 module "s3" {
