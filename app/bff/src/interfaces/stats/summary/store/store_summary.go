@@ -25,8 +25,12 @@ func (stats *storeSummaryStats) StoreSummaryStartAmount(version string) error {
 	// get "start" count
 	startCount, err := stats.countMongo(
 		bson.D{
-			{"kind", "start"},
-			{"ver", version},
+			{"data",
+				bson.D{
+					{"kind", "start"},
+					{"ver", version},
+				},
+			},
 		},
 	)
 
@@ -37,8 +41,12 @@ func (stats *storeSummaryStats) StoreSummaryStartAmount(version string) error {
 	// get "error" count
 	errorCount, err := stats.countMongo(
 		bson.D{
-			{"kind", "error"},
-			{"ver", version},
+			{"data",
+				bson.D{
+					{"kind", "error"},
+					{"ver", version},
+				},
+			},
 		},
 	)
 
@@ -49,8 +57,12 @@ func (stats *storeSummaryStats) StoreSummaryStartAmount(version string) error {
 	// get "event" count
 	eventCount, err := stats.countMongo(
 		bson.D{
-			{"kind", "event"},
-			{"ver", version},
+			{"data",
+				bson.D{
+					{"kind", "event"},
+					{"ver", version},
+				},
+			},
 		},
 	)
 
