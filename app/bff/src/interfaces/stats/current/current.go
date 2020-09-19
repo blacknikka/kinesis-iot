@@ -25,8 +25,12 @@ func (stats *currentStats) GetCurrentStartAmount(version string) (int64, error) 
 		stats.dbName,
 		os.Getenv("NORMAL_COLLECTION"),
 		bson.D{
-			{"kind", "start"},
-			{"ver", version},
+			{"data",
+				bson.D{
+					{"kind", "start"},
+					{"ver", version},
+				},
+			},
 		},
 	)
 	if err != nil {

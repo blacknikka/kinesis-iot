@@ -15,3 +15,14 @@
 ```bash
 $ sh MakeKey.sh
 ```
+
+### データPOSTの例
+#### 通常データ
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"kind":"start","ver":"ver1"}' localhost:8000/stats
+```
+
+#### エラー発生
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"kind":"error","ver":"ver1"}' localhost:8000/stats
+```

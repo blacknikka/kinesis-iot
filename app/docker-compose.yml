@@ -1,7 +1,9 @@
 version: '3'
 services:
   bff:
-    build: ./bff
+    build:
+      context: ./bff
+      dockerfile: Dockerfile.local
     tty: true
     working_dir: /go/src/github.com/blacknikka/kinesis-iot
     volumes:
